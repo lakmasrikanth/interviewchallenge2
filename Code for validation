@@ -1,0 +1,61 @@
+                                             
+                                                                                                                                                                                   
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+
+
+public class interview {
+  private WebDriver browser;
+	
+	@Test
+	public void validateCNNHomePage(){		
+		
+		//Calling the Launch Application method to invoke Chrome browser and required URL
+		this.launchApplication("Chrome","http://www.cnn.com/");
+		//Validates Header, Footer, Weather and Markets Sections
+		this.isUIObjPresent(browser.findElement(By.id("cnn_hdr")),"CNN Header is displayed", "CNN Header is not displayed");
+		this.isUIObjPresent(browser.findElement(By.id("cnn_ftrcntnt")),"CNN Footer is displayed", "CNN Footer is not displayed");
+		this.isUIObjPresent(browser.findElement(By.xpath("//div[@id='cnn_maintopprofile']/div[4]")),"CNN Weather module is displayed", "CNN Weather module is not displayed");
+		this.isUIObjPresent(browser.findElement(By.xpath("//div[@id='cnn_maintopprofile']/div[5]")),"CNN Markets module is displayed", "CNN Markets module is not displayed");
+		//Calling the Close Application Method to close the Browser
+		this.closeApplication();
+	}
+
+	//Method for Opening the required Browser(mentioned two only, can write other)  and then opening the required application 
+	public void launchApplication(String strBrowserType, String strURL){		
+		if(strBrowserType.equals("Chrome")){
+			//Path of Chome Driver Server 
+			System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
+			browser = new ChromeDriver();
+		}
+		else if(strBrowserType.equals("FireFox")){
+			browser = new FirefoxDriver();
+		}
+		else if(strBrowserType.equals("IE")){
+			//Path of IE Driver Server 
+			System.setProperty("webdriver.ie.driver", "C:\\IEDriverServer.exe");
+			browser = new InternetExplorerDriver();
+		}	
+		browser.get(strURL);		
+	}
+	
+	//Method for Closing the Browser
+	public void closeApplication(){
+		browser.quit();
+	}
+	
+	//Method for Validating the UI Object in the Application
+	public void isUIObjPresent(WebElement uiObj, String strPassMsg, String strFailMsg){
+		if(uiObj.isDisplayed())
+			System.out.println(strPassMsg);		
+		else
+			System.out.println(strFailMsg);	
+	}
+		
+
+}
